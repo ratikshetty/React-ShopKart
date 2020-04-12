@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './sideBar.css'
+import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class sideBar extends Component {
@@ -46,9 +47,9 @@ class sideBar extends Component {
                 <hr></hr>
 
                 <ul>
-                    <li>All Products</li>
-                    <li>My Products</li>
-                    <li>My Account</li>
+                    <li onClick={() => alert('prod')}> All Products</li>
+                    <li><a>My Products</a></li>
+                    <li><a>My Account</a></li>
                     <li>Login</li>
                 </ul>
             </div>
