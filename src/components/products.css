@@ -1,0 +1,58 @@
+.productImage{
+    height: 300px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    
+    
+}
+
+.productContent{
+    margin-top: 20px;
+    padding: 20px 20px 0 20px;
+    border-left: goldenrod;
+    border-left-style: dotted;
+}
+
+.productCard{
+
+    background-color: #dcdcdc;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    height: 100%;
+    border-radius: 15px;
+    margin: 20px;
+    
+    
+
+}
+
+.productCard:hover{
+    box-shadow: 5px 10px gray;
+    background-color: #c4c4c4;
+    cursor: pointer;
+}
+
+.productRow{
+    margin-left: 50px;
+
+}
+
+.prodPara{
+    text-align: left;
+}
+
+.prodHR{
+    border-color: goldenrod !important;
+}
+
+.prodCardRow{
+    margin: 20px 0;
+}
+
+.bidButton{
+
+}

@@ -8,6 +8,7 @@
     box-sizing: border-box;
     background-color: #282c34;
     transition: transform 0.3s ease-out;
+    z-index: 10;
 }
 
 ul{
