@@ -4,15 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import image from './undraw_mobile_prle.svg';
 import './products.css'
+import {} from 'redux'
+import { connect } from 'react-redux';
+
 class products extends Component {
 
     constructor(props) {
         super(props)
 
-        this.state = {
-            productsAvailable: [],
-            prodCategory: []
-        }
+        // this.state = {
+        //     prodCategory: []
+        // }
 
 
     }
@@ -21,17 +23,19 @@ class products extends Component {
 
         Axios.get('http://localhost:3003/products')
             .then(res => {
-                this.setState({
-                    productsAvailable: res.data
-                })
+                // this.setState({
+                //     productsAvailable: res.data
+
+                // })
+                this.props.fetchProd(res.data)
             })
 
         Axios.get('http://localhost:3003/type')
         .then(res => {
-                this.setState({
-                    prodCategory: res.data.map(ele => ele.typeName)
-                })
-                
+                // this.setState({
+                //     // prodCategory: res.data.map(ele => ele.typeName)
+                // })
+                this.props.fetchCategory(res.data.map(ele => ele.typeName))
         })
     }
 
@@ -43,7 +47,7 @@ class products extends Component {
             <React.Fragment>
                 <div className='row productRow'>
                     {
-                        this.state.productsAvailable.map(prod =>
+                        this.props.productsAvailable.map(prod =>
 
                             <div className='col-md-6 prodCardRow'>
                                 <div className='productCard' onClick={() => alert(prod.productId)}>
@@ -56,7 +60,7 @@ class products extends Component {
                                             <hr className='prodHR'></hr>
                                             <p className='prodPara'>{prod.productDesc}</p>
                         <p className='prodPara' ><strong><em>by</em></strong> {prod.userIdOfProductAddeBy}</p>
-                        <p className='prodPara'><strong>Category:</strong> {this.state.prodCategory[prod.productTypeId - 1]}</p>
+                        <p className='prodPara'><strong>Category:</strong> {this.props.prodCategory[prod.productTypeId - 1]}</p>
                                             
 
 
@@ -82,4 +86,19 @@ class products extends Component {
     }
 }
 
-export default products;
+const mapStateToProps = state => {
+    console.log(state.productsAvailable)
+    return {
+        productsAvailable: state.productsAvailable,
+        prodCategory: state.prodCategory
+    }
+}
+
+const mapDispatchToProps = Dispatch => {
+    return {
+        fetchProd: (data) => Dispatch({type: "fetchProducts", data: data}),
+        fetchCategory: (data) => Dispatch({type: "fetchCategory", data: data})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(products);
