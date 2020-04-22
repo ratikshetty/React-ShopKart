@@ -36,10 +36,11 @@ function Login(props) {
             })
 
             localStorage.setItem('token', res.data.token)
-            console.log(localStorage.getItem('token'))
+            // console.log("token:",localStorage.getItem('token'))
 
             props.toggleLogin()
-            props.loggedIn(stateUserName)
+            // console.log(res.data.userId)
+            props.loggedIn({userName: stateUserName, userId: res.data.userId})
             })
         .catch(err => {
             toast.warn("Invalid Credentials!!!", {
@@ -70,7 +71,7 @@ function Login(props) {
                             <Form>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter email" value={stateUserName} onChange={(e) => setUserName(e.target.value)}/>
+                                    <Form.Control type="email" placeholder="Enter email" value={stateUserName} onChange={(e) => setUserName(e.target.value)} />
                                     <Form.Text className="text-muted">
                                         We'll never share your email with anyone else.
     </Form.Text>
@@ -105,7 +106,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = Dispatch => {
     return ({
         toggleLogin: () => Dispatch({ type: "toggleLogin" }),
-        loggedIn: (userName) => Dispatch({type: "loggedIn", userName: userName}),
+        loggedIn: (user) => Dispatch({type: "loggedIn", user: user}),
         loggedOut: () => Dispatch({type: "loggedOut"})
     })
 }

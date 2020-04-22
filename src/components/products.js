@@ -6,6 +6,8 @@ import image from './undraw_mobile_prle.svg';
 import './products.css'
 import {} from 'redux'
 import { connect } from 'react-redux';
+import SideBar from './sideBar'
+import ProductsModal from './ProductsModal'
 
 class products extends Component {
 
@@ -13,13 +15,14 @@ class products extends Component {
         super(props)
 
         // this.state = {
-        //     prodCategory: []
+        //     products: this.props.productsAvailable
         // }
-
+        // this.prods = []
+        
 
     }
 
-    componentDidMount() {
+    fetchAllProducts(){
 
         Axios.get('http://localhost:3003/products')
             .then(res => {
@@ -28,7 +31,17 @@ class products extends Component {
 
                 // })
                 this.props.fetchProd(res.data)
+                console.log(res.data)
+
+
             })
+
+    }
+
+    componentDidMount() {
+        console.log("called didmount")
+
+        this.fetchAllProducts()
 
         Axios.get('http://localhost:3003/type')
         .then(res => {
@@ -37,6 +50,15 @@ class products extends Component {
                 // })
                 this.props.fetchCategory(res.data.map(ele => ele.typeName))
         })
+
+        
+    }
+
+    myProducts(userId){
+
+        let prods = this.props.productsAvailable.filter(cur => cur.userIdOfProductAddeBy === userId)
+        this.props.fetchProd(prods)
+
     }
 
 
@@ -45,6 +67,11 @@ class products extends Component {
 
         return (
             <React.Fragment>
+                <ProductsModal></ProductsModal>
+                <SideBar
+                    allProducts = {this.fetchAllProducts.bind(this)}
+                    myProducts = {this.myProducts.bind(this)}
+                    refreshAfterLoggedOut={this.fetchAllProducts.bind(this)}></SideBar>
                 <div className='row productRow'>
                     {
                         this.props.productsAvailable.map(prod =>
@@ -87,10 +114,12 @@ class products extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state.productsAvailable)
+    // console.log(state.productsAvailable)
     return {
         productsAvailable: state.productsAvailable,
-        prodCategory: state.prodCategory
+        prodCategory: state.prodCategory,
+        user: state.user,
+        userLoggedIn: state.userLoggedIn
     }
 }
 

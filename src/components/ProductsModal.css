@@ -1,0 +1,23 @@
+.modalInner{
+    position: fixed; 
+   top: 20%; 
+  left: 25%;
+
+    width: 50rem;
+    background-color: #282c34;
+    color: goldenrod;
+    border-radius: 15px;
+    margin: auto;
+    padding: 2% 5% ;
+    text-align: left;
+    z-index: 9;
+}
+
+.modalTitle{
+    text-align: center;
+    
+}
+
+hr{
+    border-color: goldenrod !important;
+}

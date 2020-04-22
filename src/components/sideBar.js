@@ -34,6 +34,7 @@ class sideBar extends Component {
         toast.configure()
         localStorage.removeItem('token')
         this.props.loggedOut()
+        this.props.refreshAfterLoggedOut()
         toast.warn("Successfully Logged Out!!!", {
             hideProgressBar: true,
             dispArticles: 'none'
@@ -72,10 +73,12 @@ class sideBar extends Component {
 
                     <Nav className="flex-column" fill>
                         <Nav.Item >
-                            <Nav.Link className='navItem'>All Products</Nav.Link>
+                            <Nav.Link className='navItem' onClick={this.props.allProducts}>All Products</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link className='navItem'>My Products</Nav.Link>
+                            <Nav.Link className='navItem' 
+                            onClick={() => 
+                            this.props.userLoggedIn? this.props.myProducts(this.props.user.userId): null }>My Products</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link className='navItem'>My Account</Nav.Link>
@@ -83,7 +86,7 @@ class sideBar extends Component {
                         <Nav.Item>
                             {!this.props.userLoggedIn ? 
                             <Nav.Link className='navItem' onClick={this.props.toggleLogin}>Login</Nav.Link> :
-                            <Nav.Link className='navItem' onClick={this.logoutHandler.bind(this)}>{this.props.userName} (Logout)</Nav.Link>
+                            <Nav.Link className='navItem' onClick={this.logoutHandler.bind(this)}>{this.props.user.userName} (Logout)</Nav.Link>
     }
                         </Nav.Item>
                     </Nav>
@@ -99,7 +102,7 @@ class sideBar extends Component {
 const mapStateToProps = state => {
     return({
         userLoggedIn: state.userLoggedIn,
-        userName: state.userName,
+        user: state.user,
     })
 }
 

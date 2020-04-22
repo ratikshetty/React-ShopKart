@@ -5,7 +5,7 @@ const initialState = {
     prodCategory: [],
     showLogin: false,
     userLoggedIn: false,
-    userName: null
+    user: null
 };
 
 function reducer(state = initialState, action) {
@@ -32,13 +32,13 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 userLoggedIn: true,
-                userName: action.userName
+                user: {...action.user}
             }
         case "loggedOut":
             return {
                 ...state,
                 userLoggedIn: false,
-                userName: null
+                user: null
             }
         default:
             return state
