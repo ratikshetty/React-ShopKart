@@ -41,6 +41,8 @@ function Login(props) {
             props.toggleLogin()
             // console.log(res.data.userId)
             props.loggedIn({userName: stateUserName, userId: res.data.userId})
+            setUserName('')
+            setPass('')
             })
         .catch(err => {
             toast.warn("Invalid Credentials!!!", {
@@ -52,12 +54,22 @@ function Login(props) {
 
     }
 
+    function backdropBtnHandler(){
+
+        if(!props.userLoggedIn && props.showProductModal){
+            props.toggleProductModal()
+        }
+
+        props.toggleLogin()
+
+    }
+
     return (
 
         props.showLogin ? 
         <React.Fragment>
             <Backdrop
-                onClick={props.toggleLogin}></Backdrop>
+                onClick={backdropBtnHandler}></Backdrop>
             <div className='main'>
                 <div className='inner'>
                     <div className='row'>
@@ -98,7 +110,9 @@ function Login(props) {
 
 const mapStateToProps = (state) => {
     return ({
-        showLogin: state.showLogin
+        showLogin: state.showLogin,
+        userLoggedIn: state.userLoggedIn,
+        showProductModal: state.showProductModal
     }
     )
 }
@@ -107,7 +121,8 @@ const mapDispatchToProps = Dispatch => {
     return ({
         toggleLogin: () => Dispatch({ type: "toggleLogin" }),
         loggedIn: (user) => Dispatch({type: "loggedIn", user: user}),
-        loggedOut: () => Dispatch({type: "loggedOut"})
+        loggedOut: () => Dispatch({type: "loggedOut"}),
+        toggleProductModal: () => Dispatch({type: "toggleProdModal"})
     })
 }
 

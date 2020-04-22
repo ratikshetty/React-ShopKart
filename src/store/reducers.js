@@ -5,7 +5,8 @@ const initialState = {
     prodCategory: [],
     showLogin: false,
     userLoggedIn: false,
-    user: null
+    user: null,
+    showProductModal: false
 };
 
 function reducer(state = initialState, action) {
@@ -39,6 +40,12 @@ function reducer(state = initialState, action) {
                 ...state,
                 userLoggedIn: false,
                 user: null
+            }
+
+        case "toggleProdModal":
+            return{
+                ...state,
+                showProductModal: !state.showProductModal
             }
         default:
             return state

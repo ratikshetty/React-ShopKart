@@ -61,18 +61,33 @@ class products extends Component {
 
     }
 
+    addPrdBtnHandler(){
+
+        if(!this.props.userLoggedIn){
+            this.props.toggleProductModal()
+            this.props.toggleLogin()
+        }
+        else{
+            this.props.toggleProductModal()
+        }
+    }
+
 
 
     render() {
 
         return (
             <React.Fragment>
-                <ProductsModal></ProductsModal>
+                {this.props.showProductModal? 
+                <ProductsModal></ProductsModal>: null}
                 <SideBar
                     allProducts = {this.fetchAllProducts.bind(this)}
                     myProducts = {this.myProducts.bind(this)}
                     refreshAfterLoggedOut={this.fetchAllProducts.bind(this)}></SideBar>
+
+                    <Button variant='success' className='mt-3' onClick={this.addPrdBtnHandler.bind(this)}>Add Product</Button>
                 <div className='row productRow'>
+                    
                     {
                         this.props.productsAvailable.map(prod =>
 
@@ -119,14 +134,17 @@ const mapStateToProps = state => {
         productsAvailable: state.productsAvailable,
         prodCategory: state.prodCategory,
         user: state.user,
-        userLoggedIn: state.userLoggedIn
+        userLoggedIn: state.userLoggedIn,
+        showProductModal: state.showProductModal
     }
 }
 
 const mapDispatchToProps = Dispatch => {
     return {
         fetchProd: (data) => Dispatch({type: "fetchProducts", data: data}),
-        fetchCategory: (data) => Dispatch({type: "fetchCategory", data: data})
+        fetchCategory: (data) => Dispatch({type: "fetchCategory", data: data}),
+        toggleLogin: () => Dispatch({type:"toggleLogin"}),
+        toggleProductModal: () => Dispatch({type: "toggleProdModal"})
     }
 }
 
