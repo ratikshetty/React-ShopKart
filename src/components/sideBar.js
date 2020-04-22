@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import './sideBar.css'
-import { Button } from 'react-bootstrap';
+import { Button,Nav } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Backdrop from "./backdrop"
+import {connect} from 'react-redux'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class sideBar extends Component {
 
@@ -24,6 +27,17 @@ class sideBar extends Component {
                 showSidebar: true
             })
         }
+    }
+
+    logoutHandler(){
+
+        toast.configure()
+        localStorage.removeItem('token')
+        this.props.loggedOut()
+        toast.warn("Successfully Logged Out!!!", {
+            hideProgressBar: true,
+            dispArticles: 'none'
+        })
     }
 
 
@@ -49,12 +63,30 @@ class sideBar extends Component {
 
                     <hr></hr>
 
-                    <ul>
+                    {/* <ul>
                         <li onClick={() => alert('prod')}> All Products</li>
                         <li><a>My Products</a></li>
                         <li><a>My Account</a></li>
                         <li>Login</li>
-                    </ul>
+                    </ul> */}
+
+                    <Nav className="flex-column" fill>
+                        <Nav.Item >
+                            <Nav.Link className='navItem'>All Products</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link className='navItem'>My Products</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link className='navItem'>My Account</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            {!this.props.userLoggedIn ? 
+                            <Nav.Link className='navItem' onClick={this.props.toggleLogin}>Login</Nav.Link> :
+                            <Nav.Link className='navItem' onClick={this.logoutHandler.bind(this)}>{this.props.userName} (Logout)</Nav.Link>
+    }
+                        </Nav.Item>
+                    </Nav>
                 </div>
 
             </React.Fragment>
@@ -64,4 +96,18 @@ class sideBar extends Component {
 
 }
 
-export default sideBar;
+const mapStateToProps = state => {
+    return({
+        userLoggedIn: state.userLoggedIn,
+        userName: state.userName,
+    })
+}
+
+const mapDispatchToProps = Dispatch => {
+    return({
+        toggleLogin: () => Dispatch({type: "toggleLogin"}),
+        loggedOut: () => Dispatch({type: "loggedOut"})
+    })
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(sideBar);

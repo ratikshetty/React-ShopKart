@@ -21,11 +21,13 @@ ul{
 hr{
     margin-top: 100px;
 }
-li{
+
+.navItem{
     color: lightyellow;
     font-size: 22px;
     padding-top: 20px;
     text-align: left;
+    margin-left: 20px;
 }
 
 .closeSidebar{

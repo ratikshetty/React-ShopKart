@@ -2,21 +2,43 @@
 
 const initialState = {
     productsAvailable: [],
-    prodCategory: []
+    prodCategory: [],
+    showLogin: false,
+    userLoggedIn: false,
+    userName: null
 };
 
 function reducer(state = initialState, action) {
 
-    switch(action.type){
+    switch (action.type) {
         case "fetchProducts":
-            return{
+            return {
                 ...state,
                 productsAvailable: [...action.data]
             }
         case "fetchCategory":
-            return{
+            return {
                 ...state,
                 prodCategory: [...action.data]
+            }
+
+        case "toggleLogin":
+            return {
+                ...state,
+                showLogin: !state.showLogin
+            }
+
+        case "loggedIn":
+            return {
+                ...state,
+                userLoggedIn: true,
+                userName: action.userName
+            }
+        case "loggedOut":
+            return {
+                ...state,
+                userLoggedIn: false,
+                userName: null
             }
         default:
             return state
