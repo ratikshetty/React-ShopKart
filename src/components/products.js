@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import image from './undraw_mobile_prle.svg';
 import './products.css'
-import {} from 'redux'
+import { } from 'redux'
 import { connect } from 'react-redux';
 import SideBar from './sideBar'
 import ProductsModal from './ProductsModal'
@@ -14,15 +14,11 @@ class products extends Component {
     constructor(props) {
         super(props)
 
-        // this.state = {
-        //     products: this.props.productsAvailable
-        // }
-        // this.prods = []
-        
+        this.prodComp = null
 
     }
 
-    fetchAllProducts(){
+    fetchAllProducts() {
 
         Axios.get('http://localhost:3003/products')
             .then(res => {
@@ -44,32 +40,69 @@ class products extends Component {
         this.fetchAllProducts()
 
         Axios.get('http://localhost:3003/type')
-        .then(res => {
+            .then(res => {
                 // this.setState({
                 //     // prodCategory: res.data.map(ele => ele.typeName)
                 // })
                 this.props.fetchCategory(res.data.map(ele => ele.typeName))
-        })
+            })
 
-        
+
     }
 
-    myProducts(userId){
+    myProducts(userId) {
 
         let prods = this.props.productsAvailable.filter(cur => cur.userIdOfProductAddeBy === userId)
         this.props.fetchProd(prods)
 
     }
 
-    addPrdBtnHandler(){
+    addPrdBtnHandler() {
 
-        if(!this.props.userLoggedIn){
+        this.prodComp = (
+            <ProductsModal
+                    option="Add"
+                     addBtn={this.addProductModalBtnHandler.bind(this)}></ProductsModal> 
+        )
+
+        if (!this.props.userLoggedIn) {
             this.props.toggleProductModal()
             this.props.toggleLogin()
         }
-        else{
+        else {
             this.props.toggleProductModal()
         }
+    }
+
+    addProductModalBtnHandler() {
+
+        this.fetchAllProducts()
+        this.myProducts()
+    }
+
+    updateProduct(e, prod){
+
+        e.stopPropagation()
+        // alert(prod.productName)
+        
+    this.prodComp = (<ProductsModal
+        prodName={prod.productName}
+        prodDesc={prod.productDesc}
+        prodUrl='test'
+        prodType={this.props.prodCategory[prod.productTypeId - 1]}
+        prodCloseModal={this.closeUpdateProdModal}
+        option="Update"
+        prodId={prod.productId}
+        addBtn={this.addProductModalBtnHandler.bind(this)}>
+    </ProductsModal>)
+
+        this.props.toggleProductModal()
+    }
+
+    closeUpdateProdModal(){
+        this.setState({
+            updateProdComp: false
+        })
     }
 
 
@@ -78,16 +111,20 @@ class products extends Component {
 
         return (
             <React.Fragment>
-                {this.props.showProductModal? 
-                <ProductsModal></ProductsModal>: null}
+                {this.props.showProductModal ?
+                    this.prodComp
+                
+                        : null}
+
+            
                 <SideBar
-                    allProducts = {this.fetchAllProducts.bind(this)}
-                    myProducts = {this.myProducts.bind(this)}
+                    allProducts={this.fetchAllProducts.bind(this)}
+                    myProducts={this.myProducts.bind(this)}
                     refreshAfterLoggedOut={this.fetchAllProducts.bind(this)}></SideBar>
 
-                    <Button variant='success' className='mt-3' onClick={this.addPrdBtnHandler.bind(this)}>Add Product</Button>
+                <Button variant='success' className='mt-3' onClick={this.addPrdBtnHandler.bind(this)}>Add Product</Button>
                 <div className='row productRow'>
-                    
+
                     {
                         this.props.productsAvailable.map(prod =>
 
@@ -101,19 +138,32 @@ class products extends Component {
                                             <h3> {prod.productName}</h3>
                                             <hr className='prodHR'></hr>
                                             <p className='prodPara'>{prod.productDesc}</p>
-                        <p className='prodPara' ><strong><em>by</em></strong> {prod.userIdOfProductAddeBy}</p>
-                        <p className='prodPara'><strong>Category:</strong> {this.props.prodCategory[prod.productTypeId - 1]}</p>
-                                            
+                                            <p className='prodPara' ><strong><em>by</em></strong> {prod.userIdOfProductAddeBy}</p>
+                                            <p className='prodPara'><strong>Category:</strong> {this.props.prodCategory[prod.productTypeId - 1]}</p>
+
 
 
                                         </div>
                                         <div className='col-md-6'></div>
-                                        <div className='col-md-6' style={{padding:'0 40px'}}>
-                                            <Button className='bidButton' variant="primary" 
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    alert('bid'+ prod.productId)
-                                                }} block>Bid</Button>
+                                        <div className='col-md-6' style={{ padding: '0 40px' }}>
+                                            <div className='row'>
+                                                <div className='col-md-12'>
+                                                    <Button className='bidButton' variant="primary"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            alert('bid' + prod.productId)
+                                                        }} block>Bid</Button>
+                                                </div>
+                                                {this.props.user && this.props.user.userId === prod.userIdOfProductAddeBy? 
+                                                <div className='col-md-12 mt-1'>
+                                                    <Button block onClick={ (e) => this.updateProduct(e, prod)}>
+                                                        Update
+                                            </Button>
+                                                </div>: null}
+                                            </div>
+
+
+
                                         </div>
                                     </div>
 
@@ -141,10 +191,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = Dispatch => {
     return {
-        fetchProd: (data) => Dispatch({type: "fetchProducts", data: data}),
-        fetchCategory: (data) => Dispatch({type: "fetchCategory", data: data}),
-        toggleLogin: () => Dispatch({type:"toggleLogin"}),
-        toggleProductModal: () => Dispatch({type: "toggleProdModal"})
+        fetchProd: (data) => Dispatch({ type: "fetchProducts", data: data }),
+        fetchCategory: (data) => Dispatch({ type: "fetchCategory", data: data }),
+        toggleLogin: () => Dispatch({ type: "toggleLogin" }),
+        toggleProductModal: () => Dispatch({ type: "toggleProdModal" })
     }
 }
 
