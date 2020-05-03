@@ -1,0 +1,20 @@
+.productDetailsContent{
+    text-align: left;
+    margin-bottom: 10%;
+}
+
+.productDetailsRow{
+    margin-top: 7%;
+}
+
+.prodDesc{
+    text-align: justify;
+}
+
+.accDiv{
+    cursor: pointer;
+}
+
+.accDiv:hover{
+    background-color: gray;
+}

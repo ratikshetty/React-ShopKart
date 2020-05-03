@@ -9,23 +9,25 @@ import 'react-toastify/dist/ReactToastify.css';
 
 class sideBar extends Component {
 
-    state = {
-        showSidebar: true
-    }
+    // state = {
+    //     showSidebar: true
+    // }
 
     toggleSidebar() {
 
-        if (this.state.showSidebar) {
+        if (this.props.showSidebar) {
             document.getElementById('temp').className = 'sidebar closeSidebar'
-            this.setState({
-                showSidebar: false
-            })
+            // this.setState({
+            //     showSidebar: false
+            // })
+            this.props.togglebar()
         }
         else {
             document.getElementById('temp').className = 'sidebar openSidebar'
-            this.setState({
-                showSidebar: true
-            })
+            // this.setState({
+            //     showSidebar: true
+            // })
+            this.props.togglebar()
         }
     }
 
@@ -47,8 +49,8 @@ class sideBar extends Component {
         return (
             <React.Fragment>
 
-                {this.state.showSidebar ? <Backdrop onClick={this.toggleSidebar.bind(this)}></Backdrop> : null}
-                <div className='sidebar' id='temp'>
+                {this.props.showSidebar ? <Backdrop onClick={this.toggleSidebar.bind(this)}></Backdrop> : null}
+                <div className='sidebar closeSidebar' id='temp'>
 
                     <div className='row'>
                         <div className='col-md-10'>
@@ -103,13 +105,15 @@ const mapStateToProps = state => {
     return({
         userLoggedIn: state.userLoggedIn,
         user: state.user,
+        showSidebar: state.showSideBar
     })
 }
 
 const mapDispatchToProps = Dispatch => {
     return({
         toggleLogin: () => Dispatch({type: "toggleLogin"}),
-        loggedOut: () => Dispatch({type: "loggedOut"})
+        loggedOut: () => Dispatch({type: "loggedOut"}),
+        togglebar: () => Dispatch({type: "toggleSideBar"})
     })
 }
 

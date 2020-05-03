@@ -6,7 +6,9 @@ const initialState = {
     showLogin: false,
     userLoggedIn: false,
     user: null,
-    showProductModal: false
+    showProductModal: false,
+    showSideBar: false,
+    showProductDetails: false
 };
 
 function reducer(state = initialState, action) {
@@ -33,7 +35,7 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 userLoggedIn: true,
-                user: {...action.user}
+                user: { ...action.user }
             }
         case "loggedOut":
             return {
@@ -43,9 +45,24 @@ function reducer(state = initialState, action) {
             }
 
         case "toggleProdModal":
-            return{
+            return {
                 ...state,
                 showProductModal: !state.showProductModal
+            }
+        case "toggleSideBar":
+            return {
+                ...state,
+                showSideBar: !state.showSideBar
+            }
+        case "showProductDetailsModal":
+            return {
+                ...state,
+                showProductDetails: true
+            }
+        case "hideProductDetailsModal":
+            return {
+                ...state,
+                showProductDetails: false
             }
         default:
             return state

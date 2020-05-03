@@ -9,14 +9,15 @@
     background-color: #282c34;
     transition: transform 0.3s ease-out;
     z-index: 10;
+    overflow-y: scroll;
 }
 
-ul{
-    padding-top: 10px;
-    width: 100%;
-    height: inherit;
-    list-style-type: none;
-}
+@media screen and (max-width: 992px) {
+    .sidebar {
+      width:50%;
+    }
+  }
+
 
 hr{
     margin-top: 10px;
@@ -31,7 +32,7 @@ hr{
 }
 
 .closeSidebar{
-    transform: translateX(-80%);
+    transform: translateX(-100%);
 }
 
 .openSidebar{
