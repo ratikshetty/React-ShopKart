@@ -18,3 +18,13 @@
 .accDiv:hover{
     background-color: gray;
 }
+
+.prodImage{
+    
+  width: 60%;
+  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  
+  float: none;
+}

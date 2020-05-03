@@ -8,7 +8,8 @@ import { } from 'redux'
 import { connect } from 'react-redux';
 import SideBar from './sideBar'
 import ProductsModal from './ProductsModal';
-import ProductDetails from './ProductDetails'
+import ProductDetails from './ProductDetails';
+import menu from '../assets/icons8-menu.svg'
 
 class products extends Component {
 
@@ -91,7 +92,7 @@ class products extends Component {
     this.prodComp = (<ProductsModal
         prodName={prod.productName}
         prodDesc={prod.productDesc}
-        prodUrl='test'
+        prodUrl={prod.imageURL}
         prodType={this.props.prodCategory[prod.productTypeId - 1]}
         prodCloseModal={this.closeUpdateProdModal}
         option="Update"
@@ -127,11 +128,12 @@ class products extends Component {
         this.prodDetails = (
             <ProductDetails
                 prodName = {prod.productName}
-                by={prod.userIdOfProductAddeBy}
+                by={prod.userNameOfProductAddedBy}
                 desc={prod.productDesc}
                 postedDate={prod.createdDate}
                 lastUpdated={prod.modifiedDate}
                 prodId={prod.productId}
+                prodImage={prod.imageURL}
                  ></ProductDetails>
         )
         
@@ -156,10 +158,11 @@ class products extends Component {
                     refreshAfterLoggedOut={this.fetchAllProducts.bind(this)}></SideBar>
 
                 <div className='row headerBar'>
-                    <div className='col-md-12' onClick={() => this.toggleSidebar()}>
-                   
+                    <div className='col-md-12' >
+                        <img src={menu} onClick={() => this.toggleSidebar()}></img>
                     </div>
                 </div>
+                
 
                 {!this.props.showProductDetails?
                 <React.Fragment>
@@ -170,16 +173,16 @@ class products extends Component {
                         this.props.productsAvailable.map(prod =>
 
                             <div className='col-md-6 prodCardRow'>
-                                <div className='productCard' onClick={() => this.productClickHandler(prod)}>
+                                <div className='productCard p-3' onClick={() => this.productClickHandler(prod)}>
                                     <div className='row' >
-                                        <div className='col-md-6 productImage' style={{ backgroundImage: `url(https://images.unsplash.com/photo-1564466809058-bf4114d55352?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60)` }}>
-
+                                        <div className='col-md-6 productImageWrapper' >
+                                            <img className='productImage' src={prod.imageURL}></img>
                                         </div>
                                         <div className='col-md-6 productContent'>
                                             <h3> {prod.productName}</h3>
                                             <hr className='prodHR'></hr>
-                                            <p className='prodPara'>{prod.productDesc}</p>
-                                            <p className='prodPara' ><strong><em>by</em></strong> {prod.userIdOfProductAddeBy}</p>
+                                            <p className='prodPara prodDesc'>{prod.productDesc}</p>
+                                            <p className='prodPara' ><strong><em>by</em></strong> {prod.userNameOfProductAddedBy}</p>
                                             <p className='prodPara'><strong>Category:</strong> {this.props.prodCategory[prod.productTypeId - 1]}</p>
 
 

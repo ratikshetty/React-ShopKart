@@ -67,9 +67,9 @@ function ProductDetails(props) {
     
 
     return (
-        <div className='row productDetailsRow'>
+        <div className='row productDetailsRow p-3'>
             <div className='col-md-5'>
-
+                <img className='prodImage' src={props.prodImage}></img>
             </div>
 
             <div className='col-md-7 productDetailsContent'>
@@ -103,7 +103,7 @@ function ProductDetails(props) {
                     </div>
                 </div>
 
-                {props.user && props.user.userId !== props.by?
+                {props.user && props.user.userName !== props.by?
                 <div className='row mt-3'>
                     <div className='col-md-11'>
                     <InputGroup className="mb-3 mt-4">

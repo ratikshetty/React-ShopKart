@@ -34,7 +34,8 @@ function ProductsModal(props) {
                     {
                         productName: prodName,
                         productTypeId: cat + 1,
-                        productDesc: prodDesc
+                        productDesc: prodDesc,
+                        imageURL: prodUrl
                     },
                     {
                         headers: {
@@ -63,7 +64,8 @@ function ProductsModal(props) {
                     {
                         productName: prodName,
                         productTypeId: cat + 1,
-                        productDesc: prodDesc
+                        productDesc: prodDesc,
+                        imageURL: prodUrl
                     },
                     {
                         headers: {

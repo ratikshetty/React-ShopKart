@@ -48,7 +48,7 @@ function BidComponent(props){
             <div className='col-md-6'>
             <div>{props.bidAmount}</div>
             </div>
-            {props.user && props.user.userId === props.by?
+            {props.user && props.user.userName === props.by?
             <div  className='col-md-6'>
                 <Button onClick={() => sellBtnClickHandler(props.bidId)} block>Sell</Button>
             </div>: null}
