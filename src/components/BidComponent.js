@@ -47,12 +47,20 @@ function BidComponent(props){
 
     return(
         <div className='row bidRow '>
-            <div className='col-md-6'>
+            <div className='col-md-3'>
             <div>{props.bidAmount}</div>
             </div>
+            <div className='col-md-3'>
+            <div>{props.bidBy}</div>
+            </div>
+            
             {props.user && !props.history && props.user.userName === props.by?
             <div  className='col-md-6'>
-                <Button onClick={() => sellBtnClickHandler(props.bidId)} block>Sell</Button>
+                <Button variant='success' onClick={() => sellBtnClickHandler(props.bidId)} block>Sell</Button>
+            </div>: null}
+            {props.user && !props.history && props.user.userName === props.bidBy?
+            <div  className='col-md-6'>
+                <Button variant='danger' onClick={() => props.deleteBidHandler(props.bidId)} block>Delete</Button>
             </div>: null}
         </div>
         

@@ -61,6 +61,7 @@ class products extends Component {
             })
 
         this.props.showingHistory()
+        this.props.hideProductDetailsModal()
     }
 
     async mySells(){
@@ -78,6 +79,7 @@ class products extends Component {
             })
 
             this.props.showingHistory()
+            this.props.hideProductDetailsModal()
     }
 
     componentDidMount() {
@@ -188,6 +190,7 @@ class products extends Component {
                 prodImage={prod.imageURL}
                 prodTypeId={prod.productTypeId}
                 prodObject={prod}
+                bidAmount={prod.bidAmount}
                 fetchAllProducts={this.fetchAllProducts}
             ></ProductDetails>
         )
@@ -298,14 +301,14 @@ class products extends Component {
                                                 <div className='col-md-6'></div>
                                                 <div className='col-md-6' style={{ padding: '0 40px' }}>
                                                     <div className='row'>
-                                                        {this.props.user && this.props.user.userId !== prod.userIdOfProductAddeBy ?
+                                                        {/* {this.props.user && this.props.user.userId !== prod.userIdOfProductAddeBy ?
                                                             <div className='col-md-12'>
                                                                 <Button className='bidButton' variant="primary"
                                                                     onClick={(e) => {
                                                                         e.stopPropagation()
                                                                         alert('bid' + prod.productId)
                                                                     }} block>Bid</Button>
-                                                            </div> : null}
+                                                            </div> : null} */}
                                                         {this.props.user && !this.props.history &&this.props.user.userId === prod.userIdOfProductAddeBy ?
                                                             <div className='col-md-12 mt-1'>
                                                                 <Button block onClick={(e) => this.updateProduct(e, prod)}>
