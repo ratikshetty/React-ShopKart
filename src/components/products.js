@@ -27,6 +27,7 @@ class products extends Component {
     }
 
     async fetchAllProducts() {
+        this.props.hideHistory()
 
         await Axios.get('http://localhost:3003/products')
             .then(res => {
@@ -41,7 +42,42 @@ class products extends Component {
             })
 
         this.props.hideProductDetailsModal()
+        
 
+    }
+
+    async myPurchases(){
+
+        await Axios.get(`http://localhost:3003/products/purchase/${this.props.user.userId}`)
+            .then(res => {
+                // this.setState({
+                //     productsAvailable: res.data
+
+                // })
+                this.props.fetchProd(res.data)
+                // console.log(res.data)
+
+
+            })
+
+        this.props.showingHistory()
+    }
+
+    async mySells(){
+
+        await Axios.get(`http://localhost:3003/products/sold/${this.props.user.userId}`)
+            .then(res => {
+                // this.setState({
+                //     productsAvailable: res.data
+
+                // })
+                this.props.fetchProd(res.data)
+                // console.log(res.data)
+
+
+            })
+
+            this.props.showingHistory()
     }
 
     componentDidMount() {
@@ -61,6 +97,9 @@ class products extends Component {
     }
 
     myProducts(userId) {
+
+        this.props.hideHistory()
+        this.fetchAllProducts()
 
         let prods = this.props.productsAvailable.filter(cur => cur.userIdOfProductAddeBy === userId)
         this.props.fetchProd(prods)
@@ -201,6 +240,8 @@ class products extends Component {
                 <SideBar
                     allProducts={this.fetchAllProducts.bind(this)}
                     myProducts={this.myProducts.bind(this)}
+                    myPurchases={this.myPurchases.bind(this)}
+                    mySells={this.mySells.bind(this)}
                     refreshAfterLoggedOut={this.fetchAllProducts.bind(this)}></SideBar>
 
                 <div className='row headerBar'>
@@ -263,7 +304,7 @@ class products extends Component {
                                                                         alert('bid' + prod.productId)
                                                                     }} block>Bid</Button>
                                                             </div> : null}
-                                                        {this.props.user && this.props.user.userId === prod.userIdOfProductAddeBy ?
+                                                        {this.props.user && !this.props.history &&this.props.user.userId === prod.userIdOfProductAddeBy ?
                                                             <div className='col-md-12 mt-1'>
                                                                 <Button block onClick={(e) => this.updateProduct(e, prod)}>
                                                                     Update
@@ -301,7 +342,8 @@ const mapStateToProps = state => {
         userLoggedIn: state.userLoggedIn,
         showProductModal: state.showProductModal,
         showSidebar: state.showSideBar,
-        showProductDetails: state.showProductDetails
+        showProductDetails: state.showProductDetails,
+        history: state.history
     }
 }
 
@@ -313,7 +355,9 @@ const mapDispatchToProps = Dispatch => {
         toggleProductModal: () => Dispatch({ type: "toggleProdModal" }),
         togglebar: () => Dispatch({ type: "toggleSideBar" }),
         showProductDetailsModal: () => Dispatch({ type: "showProductDetailsModal" }),
-        hideProductDetailsModal: () => Dispatch({ type: "hideProductDetailsModal" })
+        hideProductDetailsModal: () => Dispatch({ type: "hideProductDetailsModal" }),
+        showingHistory: () => Dispatch({type:"showingHistory"}),
+        hideHistory: () => Dispatch({type:"hidingHistory"})
     }
 }
 

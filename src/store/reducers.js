@@ -8,7 +8,8 @@ const initialState = {
     user: null,
     showProductModal: false,
     showSideBar: false,
-    showProductDetails: false
+    showProductDetails: false,
+    history: false
 };
 
 function reducer(state = initialState, action) {
@@ -63,6 +64,16 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 showProductDetails: false
+            }
+        case "showingHistory":
+            return {
+                ...state,
+                history: true
+            }
+        case "hidingHistory":
+            return {
+                ...state,
+                history: false
             }
         default:
             return state

@@ -192,7 +192,8 @@ function ProductDetails(props) {
                                                 by={props.by}
                                                 bidId={bid.bidId}
                                                 bidUserId={bid.bidUserId}
-                                                prodId={props.prodId}></BidComponent>)}
+                                                prodId={props.prodId}
+                                                loadProd={fetchAllProducts}></BidComponent>)}
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>

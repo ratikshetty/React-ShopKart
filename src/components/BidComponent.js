@@ -17,6 +17,7 @@ function BidComponent(props){
             bidId: bidId,
             userIdOfProductSoldTo:props.bidUserId,
             productId:props.prodId,
+            soldToId: props.bidUserId
         },
         {
             headers: {
@@ -29,6 +30,7 @@ function BidComponent(props){
                 dispArticles: 'none'
             })
             props.hideProductDetailsModal()
+            props.loadProd()
         })
         .catch(err => {
             alert(err)
@@ -48,7 +50,7 @@ function BidComponent(props){
             <div className='col-md-6'>
             <div>{props.bidAmount}</div>
             </div>
-            {props.user && props.user.userName === props.by?
+            {props.user && !props.history && props.user.userName === props.by?
             <div  className='col-md-6'>
                 <Button onClick={() => sellBtnClickHandler(props.bidId)} block>Sell</Button>
             </div>: null}
@@ -59,7 +61,8 @@ function BidComponent(props){
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        user: state.user,
+        history: state.history
     }
 }
 

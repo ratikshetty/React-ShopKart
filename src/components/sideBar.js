@@ -77,14 +77,22 @@ class sideBar extends Component {
                         <Nav.Item >
                             <Nav.Link className='navItem' onClick={this.props.allProducts}>All Products</Nav.Link>
                         </Nav.Item>
+                        {this.props.userLoggedIn?
                         <Nav.Item>
                             <Nav.Link className='navItem' 
-                            onClick={() => 
-                            this.props.userLoggedIn? this.props.myProducts(this.props.user.userId): null }>My Products</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
+                            onClick={() => this.props.myProducts(this.props.user.userId)}>My Products</Nav.Link>
+                        </Nav.Item>: null}
+                        {/* <Nav.Item>
                             <Nav.Link className='navItem'>My Account</Nav.Link>
-                        </Nav.Item>
+                        </Nav.Item> */}
+                        {this.props.userLoggedIn?
+                        <Nav.Item>
+                            <Nav.Link className='navItem' onClick={this.props.myPurchases}>My Orders</Nav.Link>
+                        </Nav.Item>:null}
+                        {this.props.userLoggedIn ?
+                        <Nav.Item>
+                            <Nav.Link className='navItem' onClick={this.props.mySells}>My Sells</Nav.Link>
+                        </Nav.Item>:null}
                         <Nav.Item>
                             {!this.props.userLoggedIn ? 
                             <Nav.Link className='navItem' onClick={this.props.toggleLogin}>Login</Nav.Link> :
@@ -105,7 +113,8 @@ const mapStateToProps = state => {
     return({
         userLoggedIn: state.userLoggedIn,
         user: state.user,
-        showSidebar: state.showSideBar
+        showSidebar: state.showSideBar,
+        
     })
 }
 
