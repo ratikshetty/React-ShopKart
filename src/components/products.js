@@ -96,13 +96,14 @@ class products extends Component {
 
     }
 
-    myProducts(userId) {
+    async myProducts(userId) {
 
         this.props.hideHistory()
-        this.fetchAllProducts()
+        await this.fetchAllProducts()
 
         let prods = this.props.productsAvailable.filter(cur => cur.userIdOfProductAddeBy === userId)
         this.props.fetchProd(prods)
+        console.log('prods',prods)
 
     }
 
@@ -125,8 +126,8 @@ class products extends Component {
 
     addProductModalBtnHandler() {
 
+        
         this.fetchAllProducts()
-        this.myProducts()
     }
 
     updateProduct(e, prod) {
@@ -242,6 +243,7 @@ class products extends Component {
                     myProducts={this.myProducts.bind(this)}
                     myPurchases={this.myPurchases.bind(this)}
                     mySells={this.mySells.bind(this)}
+                    addPrdBtnHandler={this.addPrdBtnHandler.bind(this)}
                     refreshAfterLoggedOut={this.fetchAllProducts.bind(this)}></SideBar>
 
                 <div className='row headerBar'>
@@ -269,10 +271,10 @@ class products extends Component {
 
                 {!this.props.showProductDetails ?
                     <React.Fragment>
-                        <Button variant='success' style={{ marginTop: '5%' }} onClick={this.addPrdBtnHandler.bind(this)} >Add Product</Button>
+                        {/* <Button variant='success' style={{ marginTop: '5%' }} onClick={this.addPrdBtnHandler.bind(this)} >Add Product</Button> */}
 
 
-                        <div className='row productRow'>
+                        <div className='row productRow mt-5'>
 
                             {
                                 this.props.productsAvailable.map(prod =>

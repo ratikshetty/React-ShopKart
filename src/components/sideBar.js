@@ -82,6 +82,9 @@ class sideBar extends Component {
                             <Nav.Link className='navItem' 
                             onClick={() => this.props.myProducts(this.props.user.userId)}>My Products</Nav.Link>
                         </Nav.Item>: null}
+                        <Nav.Item >
+                            <Nav.Link className='navItem' onClick={this.props.addPrdBtnHandler}>Add Product</Nav.Link>
+                        </Nav.Item>
                         {/* <Nav.Item>
                             <Nav.Link className='navItem'>My Account</Nav.Link>
                         </Nav.Item> */}
