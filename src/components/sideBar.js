@@ -54,7 +54,7 @@ class sideBar extends Component {
 
                     <div className='row'>
                         <div className='col-md-10'>
-                            <p className='title'>ShopKart</p>
+                            <p className='title'><strong>ShopKart</strong></p>
                         </div>
                         <div className='col-md-2'>
                             <img src="https://img.icons8.com/color/48/000000/shopping-basket.png" onClick={this.toggleSidebar.bind(this)} />

@@ -14,9 +14,11 @@ function ProductDetails(props) {
 
     let [bidAmount, setBidAmount] = useState('')
     let [allBids, setAllBids] = useState([])
+    let [similarProducts, setSimilarProducts] = useState([])
 
     useEffect(() => {
         fetchAllBids()
+        filerByCategory(props.prodTypeId, props.prodId)
     },[])
 
     function bidBtnClickHandler() {
@@ -64,9 +66,62 @@ function ProductDetails(props) {
             .catch(err => console.log(err))
     }
 
+    async function fetchAllProducts() {
+
+        await axios.get('http://localhost:3003/products')
+            .then(res => {
+                // this.setState({
+                //     productsAvailable: res.data
+
+                // })
+                props.fetchProd(res.data)
+                console.log(res.data)
+                
+
+            })
+
+
+    }
+
+    async function filerByCategory(typeId, prodId) {
+
+        // console.log("prods",props.productsAvailable)
+        await fetchAllProducts()
+        
+
+
+        if (typeId !== '') {
+            let prods = props.productsAvailable.filter(cur => cur.productTypeId === typeId && cur.productId !== prodId)
+            
+            props.fetchProd(prods)
+            
+            setSimilarProducts(prods)
+            // alert('here')
+        }
+        
+        
+
+    }
+
+    async function serach(name) {
+       
+
+        await fetchAllProducts()
+
+        if (name !== '') {
+            let prods = props.productsAvailable.filter(cur => cur.productName.toLowerCase().includes(name.toLocaleLowerCase()))
+            props.fetchProd(prods)
+            props.hideProductDetailsModal()
+        }
+
+
+    }
+
+    
     
 
     return (
+        <React.Fragment>
         <div className='row productDetailsRow p-3'>
             <div className='col-md-5'>
                 <img className='prodImage' src={props.prodImage}></img>
@@ -145,21 +200,46 @@ function ProductDetails(props) {
                     </div>
                 </div>
 
-                <Button onClick={props.hideProductDetailsModal}>close</Button>
+                <Button onClick={()=> {
+                    fetchAllProducts()
+                    props.hideProductDetailsModal()
+                }}>close</Button>
             </div>
         </div>
+        <div className='row pl-5 mb-4'>
+            
+                                    {similarProducts.length === 0? <div className='col-md-12'><h2>No Recomendations Available!</h2></div>:
+                                    <div className='col-md-12'>
+                                    <h1>Recomendations!!!</h1></div>}
+                                    {similarProducts.map(prod=> 
+                                        
+                                        <div className='col-md-2 recCard' onClick={()=> serach(prod.productName)}>
+                                            <div className='row'>
+                                            <div className='col-md-12'>
+                                                <img className='prodImage prodImageRec' src={prod.imageURL} ></img>
+                                            </div>
+                                            <div className='col-md-12'>
+                                    <h2 className='mt-2'>{prod.productName}</h2>
+                                    {/* <p><em>by</em> {prod.userNameOfProductAddedBy}</p> */}
+                                            </div>
+                                            </div>
+                                        </div>)}
+        </div>
+        </React.Fragment>
     )
 }
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        user: state.user,
+        productsAvailable: state.productsAvailable,
     }
 }
 
 const mapDispatchToProps = Dispatch => {
     return {
-        hideProductDetailsModal: ()=> Dispatch({type: "hideProductDetailsModal"})
+        hideProductDetailsModal: ()=> Dispatch({type: "hideProductDetailsModal"}),
+        fetchProd: (data) => Dispatch({ type: "fetchProducts", data: data }),
     }
 }
 

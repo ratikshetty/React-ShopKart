@@ -28,3 +28,26 @@
   
   float: none;
 }
+
+em{
+    font-weight: bold;
+}
+
+.recCard{
+    padding: 10px;
+    background-color: wheat;
+    border-radius: 5px;
+    margin: 10px;
+}
+.recCard:hover{
+  
+    background-color: whitesmoke;
+    border: 1px solid wheat;
+    cursor: pointer;
+    
+   
+}
+
+.prodImageRec{
+    width: 40%;
+}

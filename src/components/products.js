@@ -16,7 +16,8 @@ class products extends Component {
         super(props)
 
         this.state = {
-            prodCat: ''
+            prodCat: '',
+            searchProd: ''
         }
 
 
@@ -38,6 +39,8 @@ class products extends Component {
 
 
             })
+
+        this.props.hideProductDetailsModal()
 
     }
 
@@ -101,6 +104,7 @@ class products extends Component {
             option="Update"
             prodId={prod.productId}
             addBtn={this.addProductModalBtnHandler.bind(this)}>
+            
         </ProductsModal>)
 
         this.props.toggleProductModal()
@@ -126,7 +130,12 @@ class products extends Component {
     }
 
     productClickHandler(prod) {
-        console.log(prod)
+        // console.log(prod)
+        // alert('clicked')
+
+        this.setState({
+            searchProd: ''
+        })
 
         this.prodDetails = (
             <ProductDetails
@@ -137,26 +146,45 @@ class products extends Component {
                 lastUpdated={prod.modifiedDate}
                 prodId={prod.productId}
                 prodImage={prod.imageURL}
+                prodTypeId={prod.productTypeId}
+                prodObject={prod}
+                fetchAllProducts={this.fetchAllProducts}
             ></ProductDetails>
         )
 
         this.props.showProductDetailsModal()
     }
 
-    async filerByCategory(e){
+    async filerByCategory(e) {
 
         let catIndex = this.props.prodCategory.indexOf(e.target.value) + 1
-        
+
         this.setState({ prodCat: e.target.value })
 
         await this.fetchAllProducts()
 
-        
-        if(this.state.prodCat !== ''){
-        let prods = this.props.productsAvailable.filter(cur => cur.productTypeId == catIndex)
-        this.props.fetchProd(prods)}
+
+        if (this.state.prodCat !== '') {
+            let prods = this.props.productsAvailable.filter(cur => cur.productTypeId == catIndex)
+            this.props.fetchProd(prods)
+        }
         // console.log(catIndex,this.props.productsAvailable)
-        
+
+    }
+
+    async serach(e) {
+        this.setState({
+            searchProd: e.target.value
+        })
+
+        await this.fetchAllProducts()
+
+        if (this.state.searchProd !== '') {
+            let prods = this.props.productsAvailable.filter(cur => cur.productName.toLowerCase().includes(this.state.searchProd.toLocaleLowerCase()))
+            this.props.fetchProd(prods)
+        }
+
+
     }
 
 
@@ -178,15 +206,11 @@ class products extends Component {
                 <div className='row headerBar'>
                     <div className='col-md-12' >
                         <img src={menu} onClick={() => this.toggleSidebar()}></img>
-                    </div>
-                </div>
+                        <div className='title'><strong>ShopKart</strong></div>
 
 
-                {!this.props.showProductDetails ?
-                    <React.Fragment>
-                        <Button variant='success' style={{ marginTop: '5%' }} onClick={this.addPrdBtnHandler.bind(this)} >Add Product</Button>
-                        <div>
-                            <select value={this.state.prodCat} onChange={(e) => this.filerByCategory(e)}>
+                        <div className='mt-3 p-1' style={{ float: "right" }}>
+                            <select className='filterSelect input' value={this.state.prodCat} onChange={(e) => this.filerByCategory(e)}>
                                 <option value=''>filer By Category</option>
                                 {this.props.prodCategory.map(cat =>
                                     <option value={cat}>{cat}</option>
@@ -195,6 +219,17 @@ class products extends Component {
 
                             </select>
                         </div>
+                        <div className='mt-3 p-1' style={{ float: "right" }}>
+                            <input className='input' type="text" name="searchProd" placeholder="Search Product" value={this.state.searchProd} onChange={(e) => this.serach(e)} />
+                        </div>
+                    </div>
+                </div>
+
+
+                {!this.props.showProductDetails ?
+                    <React.Fragment>
+                        <Button variant='success' style={{ marginTop: '5%' }} onClick={this.addPrdBtnHandler.bind(this)} >Add Product</Button>
+
 
                         <div className='row productRow'>
 
