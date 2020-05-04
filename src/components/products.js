@@ -196,6 +196,8 @@ class products extends Component {
         )
 
         this.props.showProductDetailsModal()
+
+        window.scrollTo({top:0})
     }
 
     async filerByCategory(e) {

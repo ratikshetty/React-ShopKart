@@ -51,3 +51,11 @@ em{
 .prodImageRec{
     width: 40%;
 }
+
+.backBtn{
+    position: -webkit-sticky;
+  position: sticky;
+  top: 9%;
+  z-index: 2;
+  width: 70px;
+}

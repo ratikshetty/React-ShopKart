@@ -152,7 +152,13 @@ function ProductDetails(props) {
                 </div>
 
                 <div className='col-md-7 productDetailsContent'>
+                    
                     <h2>{props.prodName}</h2>
+                    <img className='backBtn' onClick={() => {
+                        fetchAllProducts()
+                        props.hideProductDetailsModal()
+                    }} src="https://img.icons8.com/bubbles/50/000000/back.png"/>
+                   
                     <p><em>by</em> <strong>{props.by}</strong></p>
                     <hr></hr>
 
@@ -251,10 +257,7 @@ function ProductDetails(props) {
                         </div>
                     </div>
 
-                    <Button onClick={() => {
-                        fetchAllProducts()
-                        props.hideProductDetailsModal()
-                    }}>close</Button>
+                    
                 </div>
             </div>
             <div className='row pl-5 mb-4'>
