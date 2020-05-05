@@ -282,6 +282,7 @@ class products extends Component {
                         <div className='row productRow mt-5'>
 
                             {
+                                this.props.productsAvailable.length === 0 ? <h2 style={{paddingLeft:'25%', marginTop:'5%'}}>No Products Available!!!<br></br><img src="https://img.icons8.com/cute-clipart/64/000000/nothing-found.png"/></h2>:
                                 this.props.productsAvailable.map(prod =>
 
                                     <div className='col-md-6 prodCardRow'>
